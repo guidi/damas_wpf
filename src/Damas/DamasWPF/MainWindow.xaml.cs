@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DamasWPF
 {
@@ -11,6 +11,8 @@ namespace DamasWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Image pecaSelecionada = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,13 +51,36 @@ namespace DamasWPF
                             {
                                 Source = new BitmapImage(new Uri($"pack://application:,,,/assets/{nomeImagemPeca}.png", UriKind.Absolute)),
                                 Width = 60,
-                                Height = 60
+                                Height = 60,
+                                Tag = Constantes.NaoClicado
                             };
+
+                            img.MouseDown += img_MouseDown;
 
                             border.Child = img;
                         }
                     }
                 }
+            }
+        }
+
+        private void img_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Image img = sender as Image;
+            if (img != null)
+            {
+                if (pecaSelecionada != null)
+                {
+                    pecaSelecionada.Opacity = Constantes.OpacidadePecaNaoSelecionada;
+                    pecaSelecionada.Tag = Constantes.NaoClicado;
+                }
+
+                pecaSelecionada = img;
+                var opacidade = img.Tag == Constantes.NaoClicado ? Constantes.OpacidadePecaSelecionada : Constantes.OpacidadePecaNaoSelecionada;
+                var tag = img.Tag == Constantes.NaoClicado ? Constantes.Clicado : Constantes.NaoClicado;
+
+                img.Opacity = opacidade;
+                img.Tag = tag;
             }
         }
 
