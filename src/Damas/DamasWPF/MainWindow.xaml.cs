@@ -6,6 +6,12 @@ using System.Windows.Media.Imaging;
 
 namespace DamasWPF
 {
+    public class PecaTag
+    {
+        public string Estado { get; set; }
+        public string Cor { get; set; }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -47,12 +53,14 @@ namespace DamasWPF
                         string nomeImagemPeca = ObterNomeImagemPeca(row);
                         if (!string.IsNullOrEmpty(nomeImagemPeca))
                         {
+                            string cor = nomeImagemPeca;
+
                             Image img = new Image
                             {
                                 Source = new BitmapImage(new Uri($"pack://application:,,,/assets/{nomeImagemPeca}.png", UriKind.Absolute)),
                                 Width = 60,
                                 Height = 60,
-                                Tag = Constantes.NaoClicado
+                                Tag = new PecaTag { Estado = Constantes.NaoClicado, Cor = cor }
                             };
 
                             img.MouseDown += img_MouseDown;
@@ -60,6 +68,44 @@ namespace DamasWPF
                             border.Child = img;
                         }
                     }
+
+                    border.MouseDown += border_MouseDown;
+                }
+            }
+        }
+
+        private void border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border border = sender as Border;
+            if (border != null && border.Child == null && pecaSelecionada != null)
+            {
+                int linhaOrigem = Grid.GetRow(pecaSelecionada.Parent as UIElement);
+                int colunaOrigem = Grid.GetColumn(pecaSelecionada.Parent as UIElement);
+                int linhaDestino = Grid.GetRow(border);
+                int colunaDestino = Grid.GetColumn(border);
+
+                var tag = (PecaTag)pecaSelecionada.Tag;
+                bool movimentoValido = false;
+                
+                if (tag.Cor == Constantes.Branca)
+                {
+                    movimentoValido = linhaDestino == linhaOrigem + 1 && (colunaDestino == colunaOrigem + 1 || colunaDestino == colunaOrigem - 1);
+                }
+                else if (tag.Cor == Constantes.Vermelha)
+                {
+                    movimentoValido = linhaDestino == linhaOrigem - 1 && (colunaDestino == colunaOrigem + 1 || colunaDestino == colunaOrigem - 1);
+                }
+
+                if (movimentoValido)
+                {
+                    //Move
+                    (pecaSelecionada.Parent as Border).Child = null;
+                    border.Child = pecaSelecionada;
+
+                    //Volta a peça pra cor de não selecionada
+                    pecaSelecionada.Opacity = Constantes.OpacidadePecaNaoSelecionada;
+                    tag.Estado = Constantes.NaoClicado;
+                    pecaSelecionada = null;
                 }
             }
         }
@@ -69,24 +115,23 @@ namespace DamasWPF
             Image img = sender as Image;
             if (img != null)
             {
+                var tag = (PecaTag)img.Tag;
                 if (pecaSelecionada != null)
                 {
+                    var tagSelecionada = (PecaTag)pecaSelecionada.Tag;
                     pecaSelecionada.Opacity = Constantes.OpacidadePecaNaoSelecionada;
-                    pecaSelecionada.Tag = Constantes.NaoClicado;
+                    tagSelecionada.Estado = Constantes.NaoClicado;
                 }
 
                 pecaSelecionada = img;
-                var opacidade = img.Tag == Constantes.NaoClicado ? Constantes.OpacidadePecaSelecionada : Constantes.OpacidadePecaNaoSelecionada;
-                var tag = img.Tag == Constantes.NaoClicado ? Constantes.Clicado : Constantes.NaoClicado;
-
-                img.Opacity = opacidade;
-                img.Tag = tag;
+                tag.Estado = tag.Estado == Constantes.NaoClicado ? Constantes.Clicado : Constantes.NaoClicado;
+                img.Opacity = tag.Estado == Constantes.Clicado ? Constantes.OpacidadePecaSelecionada : Constantes.OpacidadePecaNaoSelecionada;
             }
         }
 
         private string ObterNomeImagemPeca(int row)
         {
-            return (row < 4) ? "branca" : "vermelha";
+            return (row < 4) ? Constantes.Branca : Constantes.Vermelha;
         }
     }
 }
