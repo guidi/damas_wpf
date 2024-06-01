@@ -11,32 +11,39 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"
-        mc:Ignorable="d"
-        >
-    <Grid Name="Tabuleiro" Background="#000" Margin="30" ClipToBounds="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
+        mc:Ignorable="d">
+    <Grid>
+        <Button Content="Resetar Jogo" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="10" 
+                Padding="10"
+                Click="ResetarJogo_Click"/>
+        <Grid Name="Tabuleiro" Background="#000" Margin="30,50,30,30" ClipToBounds="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="75*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
     </Grid>
 </Window>

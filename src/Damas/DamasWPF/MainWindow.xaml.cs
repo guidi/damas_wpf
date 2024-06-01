@@ -25,6 +25,15 @@ namespace DamasWPF
             DesenharTabuleiro();
         }
 
+        private void ResetarJogo_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Deseja realmente resetar o jogo?", "Confirmação", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                DesenharTabuleiro();
+            }
+        }
+
         private void DesenharTabuleiro()
         {
             int linhas = 8;
