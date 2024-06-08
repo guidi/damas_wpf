@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DamasWPF"
-        Title="Tabuleiro de Damas"
+        Title="Damas WPF"
+        ResizeMode="NoResize"
         Height="640"
         Width="640"        
-        AllowsTransparency="True"
+    
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
+  
         Background="Transparent"
         mc:Ignorable="d">
     <Grid>
